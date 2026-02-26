@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} — FinanceTracker{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="d-flex align-items-center mb-4">
+        <a href="{% url 'category_list' %}" class="btn btn-sm btn-outline-secondary me-3">
+          <i class="bi bi-arrow-left"></i>
+        </a>
+        <h4 class="fw-bold mb-0">{{ title }}</h4>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label fw-semibold small">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}<div class="invalid-feedback d-block">{{ field.errors.0 }}</div>{% endif %}
+            </div>
+            {% endfor %}
+            <div class="mt-4 text-muted small">
+              <strong>Icon tip:</strong> Use Bootstrap Icon classes like <code>bi-cart</code>, <code>bi-house</code>, <code>bi-car-front</code>
+              — <a href="https://icons.getbootstrap.com/" target="_blank">browse all icons</a>.
+            </div>
+            <div class="d-flex gap-2 mt-3">
+              <button type="submit" class="btn btn-primary px-4">
+                <i class="bi bi-check-circle me-2"></i>Save
+              </button>
+              <a href="{% url 'category_list' %}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

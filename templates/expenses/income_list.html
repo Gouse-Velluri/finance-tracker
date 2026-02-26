@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}Income — FinanceTracker{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-0"><i class="bi bi-arrow-up-circle me-2 text-success"></i>Income</h4>
+      <p class="text-muted mb-0 small">Track all your income sources</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'export_income' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-download me-1"></i>Export CSV
+      </a>
+      <a href="{% url 'income_create' %}" class="btn btn-success btn-sm">
+        <i class="bi bi-plus-circle me-1"></i>Add Income
+      </a>
+    </div>
+  </div>
+
+  {% if total_income %}
+  <div class="alert alert-success d-flex align-items-center py-2 mb-3">
+    <i class="bi bi-wallet2 me-2"></i>
+    <strong>Total Income: {{ user_currency }}{{ total_income|floatformat:2 }}</strong>
+  </div>
+  {% endif %}
+
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th class="px-3">Title</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th class="text-end">Amount</th>
+            <th class="text-end px-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for income in incomes %}
+          <tr id="income-row-{{ income.pk }}">
+            <td class="px-3">
+              <div class="fw-semibold">{{ income.title }}</div>
+              {% if income.description %}
+              <div class="text-muted small">{{ income.description|truncatechars:50 }}</div>
+              {% endif %}
+            </td>
+            <td>
+              {% if income.category %}
+              <span class="badge" style="background: {{ income.category.color }}22; color: {{ income.category.color }}; border: 1px solid {{ income.category.color }}44;">
+                <i class="bi {{ income.category.icon }} me-1"></i>{{ income.category.name }}
+              </span>
+              {% else %}
+              <span class="text-muted small">—</span>
+              {% endif %}
+            </td>
+            <td class="text-muted small">{{ income.date|date:"M d, Y" }}</td>
+            <td class="text-end fw-bold text-success">+{{ user_currency }}{{ income.amount|floatformat:2 }}</td>
+            <td class="text-end px-3">
+              <a href="{% url 'income_update' income.pk %}" class="btn btn-sm btn-outline-primary me-1">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <button class="btn btn-sm btn-outline-danger ajax-delete"
+                      data-url="{% url 'income_delete' income.pk %}"
+                      data-row="income-row-{{ income.pk }}"
+                      data-name="{{ income.title }}">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center py-5 text-muted">
+              <i class="bi bi-inbox display-5 d-block mb-2 opacity-25"></i>
+              No income recorded yet.
+              <a href="{% url 'income_create' %}">Add income</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if is_paginated %}
+    <div class="card-footer bg-transparent border-0">
+      <nav>
+        <ul class="pagination pagination-sm justify-content-center mb-0">
+          {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+          {% endif %}
+          <li class="page-item active"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+          {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

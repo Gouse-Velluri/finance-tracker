@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block title %}Expenses — FinanceTracker{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-0"><i class="bi bi-arrow-down-circle me-2 text-danger"></i>Expenses</h4>
+      <p class="text-muted mb-0 small">Track and manage all your expenses</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'export_expenses' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-download me-1"></i>Export CSV
+      </a>
+      <a href="{% url 'expense_create' %}" class="btn btn-danger btn-sm">
+        <i class="bi bi-plus-circle me-1"></i>Add Expense
+      </a>
+    </div>
+  </div>
+
+  <!-- Filter Card -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+      <form method="get" class="row g-2 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label small fw-semibold mb-1">Search</label>
+          {{ filter_form.search }}
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-semibold mb-1">Category</label>
+          {{ filter_form.category }}
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-semibold mb-1">From</label>
+          {{ filter_form.date_from }}
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-semibold mb-1">To</label>
+          {{ filter_form.date_to }}
+        </div>
+        <div class="col-md-1">
+          <label class="form-label small fw-semibold mb-1">Min $</label>
+          {{ filter_form.amount_min }}
+        </div>
+        <div class="col-md-1">
+          <label class="form-label small fw-semibold mb-1">Max $</label>
+          {{ filter_form.amount_max }}
+        </div>
+        <div class="col-md-1 d-flex gap-1">
+          <button type="submit" class="btn btn-primary btn-sm w-100">
+            <i class="bi bi-search"></i>
+          </button>
+          <a href="{% url 'expense_list' %}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-x"></i>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Total -->
+  {% if total_filtered %}
+  <div class="alert alert-danger d-flex align-items-center py-2 mb-3">
+    <i class="bi bi-calculator me-2"></i>
+    <strong>Total: {{ user_currency }}{{ total_filtered|floatformat:2 }}</strong>
+    <span class="text-muted ms-2 small">(filtered results)</span>
+  </div>
+  {% endif %}
+
+  <!-- Expense Table -->
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th class="px-3">Title</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th class="text-end">Amount</th>
+            <th class="text-end px-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for expense in expenses %}
+          <tr id="expense-row-{{ expense.pk }}">
+            <td class="px-3">
+              <div class="fw-semibold">{{ expense.title }}</div>
+              {% if expense.description %}
+              <div class="text-muted small">{{ expense.description|truncatechars:50 }}</div>
+              {% endif %}
+            </td>
+            <td>
+              {% if expense.category %}
+              <span class="badge" style="background: {{ expense.category.color }}22; color: {{ expense.category.color }}; border: 1px solid {{ expense.category.color }}44;">
+                <i class="bi {{ expense.category.icon }} me-1"></i>{{ expense.category.name }}
+              </span>
+              {% else %}
+              <span class="text-muted small">—</span>
+              {% endif %}
+            </td>
+            <td class="text-muted small">{{ expense.date|date:"M d, Y" }}</td>
+            <td class="text-end fw-bold text-danger">{{ user_currency }}{{ expense.amount|floatformat:2 }}</td>
+            <td class="text-end px-3">
+              <a href="{% url 'expense_update' expense.pk %}" class="btn btn-sm btn-outline-primary me-1">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <button class="btn btn-sm btn-outline-danger ajax-delete"
+                      data-url="{% url 'expense_delete' expense.pk %}"
+                      data-row="expense-row-{{ expense.pk }}"
+                      data-name="{{ expense.title }}">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center py-5 text-muted">
+              <i class="bi bi-inbox display-5 d-block mb-2 opacity-25"></i>
+              No expenses found.
+              <a href="{% url 'expense_create' %}">Add your first expense</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="card-footer bg-transparent border-0">
+      <nav>
+        <ul class="pagination pagination-sm justify-content-center mb-0">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?{% for k, v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}">Previous</a>
+          </li>
+          {% endif %}
+          <li class="page-item active">
+            <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+          </li>
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?{% for k, v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">Next</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

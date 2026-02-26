@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block title %}FinanceTracker — Master Your Money{% endblock %}
+{% block main_class %}{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+  <div class="container position-relative">
+    <div class="row align-items-center min-vh-80 py-5">
+      <div class="col-lg-6">
+        <span class="badge badge-hero mb-3">
+          <i class="bi bi-stars me-1"></i> Smart Financial Tracking
+        </span>
+        <h1 class="hero-title">
+          Master Your<br>
+          <span class="text-gradient">Money Flow</span>
+        </h1>
+        <p class="hero-desc">
+          Track every dollar, visualize your spending patterns, and make smarter
+          financial decisions — all in one beautiful dashboard.
+        </p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-4">
+            <i class="bi bi-rocket-takeoff me-2"></i>Start Free Today
+          </a>
+          <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-4">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+          </a>
+        </div>
+        <div class="d-flex gap-4 mt-4">
+          <div class="stat-badge">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Private</span>
+          </div>
+          <div class="stat-badge">
+            <span class="stat-num">Free</span>
+            <span class="stat-label">Forever</span>
+          </div>
+          <div class="stat-badge">
+            <span class="stat-num">CSV</span>
+            <span class="stat-label">Export</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-none d-lg-flex justify-content-center">
+        <div class="hero-mockup">
+          <div class="mockup-card">
+            <div class="mockup-header">
+              <span class="mockup-dot red"></span>
+              <span class="mockup-dot yellow"></span>
+              <span class="mockup-dot green"></span>
+              <span class="ms-2 small fw-semibold opacity-50">Dashboard</span>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-4">
+                <div class="mockup-stat income">
+                  <div class="mockup-stat-icon"><i class="bi bi-arrow-up-circle-fill"></i></div>
+                  <div class="mockup-stat-val">$4,280</div>
+                  <div class="mockup-stat-lbl">Income</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="mockup-stat expense">
+                  <div class="mockup-stat-icon"><i class="bi bi-arrow-down-circle-fill"></i></div>
+                  <div class="mockup-stat-val">$2,164</div>
+                  <div class="mockup-stat-lbl">Expenses</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="mockup-stat balance">
+                  <div class="mockup-stat-icon"><i class="bi bi-wallet2"></i></div>
+                  <div class="mockup-stat-val">$2,116</div>
+                  <div class="mockup-stat-lbl">Balance</div>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-bar-chart">
+              <div class="bar-wrap">
+                <div class="bar income-bar" style="height:60%"></div>
+                <div class="bar expense-bar" style="height:40%"></div>
+              </div>
+              <div class="bar-wrap">
+                <div class="bar income-bar" style="height:75%"></div>
+                <div class="bar expense-bar" style="height:50%"></div>
+              </div>
+              <div class="bar-wrap">
+                <div class="bar income-bar" style="height:55%"></div>
+                <div class="bar expense-bar" style="height:38%"></div>
+              </div>
+              <div class="bar-wrap">
+                <div class="bar income-bar" style="height:80%"></div>
+                <div class="bar expense-bar" style="height:55%"></div>
+              </div>
+              <div class="bar-wrap">
+                <div class="bar income-bar" style="height:90%"></div>
+                <div class="bar expense-bar" style="height:60%"></div>
+              </div>
+              <div class="bar-wrap">
+                <div class="bar income-bar active" style="height:70%"></div>
+                <div class="bar expense-bar active" style="height:45%"></div>
+              </div>
+            </div>
+            <div class="mockup-transaction-list mt-2">
+              <div class="mockup-tx"><span class="mockup-tx-dot food"></span><span>Grocery</span><span class="ms-auto text-danger">-$85</span></div>
+              <div class="mockup-tx"><span class="mockup-tx-dot salary"></span><span>Salary</span><span class="ms-auto text-success">+$3,500</span></div>
+              <div class="mockup-tx"><span class="mockup-tx-dot entertainment"></span><span>Netflix</span><span class="ms-auto text-danger">-$16</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-6">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Everything you need to <span class="text-gradient">manage your finances</span></h2>
+      <p class="section-subtitle">Powerful features designed for real financial clarity</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            <i class="bi bi-bar-chart-line-fill"></i>
+          </div>
+          <h5 class="feature-title">Visual Analytics</h5>
+          <p class="feature-desc">Interactive charts and graphs that reveal your spending patterns at a glance with bar and pie charts.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+            <i class="bi bi-tags-fill"></i>
+          </div>
+          <h5 class="feature-title">Smart Categories</h5>
+          <p class="feature-desc">Organize expenses with customizable categories. Auto-created defaults get you started instantly.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #f7971e, #ffd200);">
+            <i class="bi bi-download"></i>
+          </div>
+          <h5 class="feature-title">CSV Export</h5>
+          <p class="feature-desc">Export all your data to CSV for use in Excel or Google Sheets anytime you need it.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #fc5c7d, #6a3093);">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <h5 class="feature-title">Privacy First</h5>
+          <p class="feature-desc">Your data is completely private. Only you can see your financial information — guaranteed.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+            <i class="bi bi-search"></i>
+          </div>
+          <h5 class="feature-title">Advanced Filters</h5>
+          <p class="feature-desc">Find any transaction instantly. Filter by date, category, amount range, or search by keyword.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, #30cfd0, #667eea);">
+            <i class="bi bi-moon-stars-fill"></i>
+          </div>
+          <h5 class="feature-title">Dark Mode</h5>
+          <p class="feature-desc">Easy on the eyes. Toggle between light and dark themes. Your preference is remembered.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-6">
+  <div class="container text-center">
+    <div class="cta-box">
+      <h2 class="mb-3 fw-bold">Ready to take control of your finances?</h2>
+      <p class="mb-4 opacity-75">Join thousands of users who track their money smarter.</p>
+      <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5 fw-semibold">
+        <i class="bi bi-rocket-takeoff me-2"></i>Create Free Account
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

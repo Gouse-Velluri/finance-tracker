@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} — FinanceTracker{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+      <div class="d-flex align-items-center mb-4">
+        <a href="{% url 'income_list' %}" class="btn btn-sm btn-outline-secondary me-3">
+          <i class="bi bi-arrow-left"></i>
+        </a>
+        <div>
+          <h4 class="fw-bold mb-0">{{ title }}</h4>
+          <p class="text-muted mb-0 small">Record your income details</p>
+        </div>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label fw-semibold small">{{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}</label>
+              {{ field }}
+              {% if field.errors %}<div class="invalid-feedback d-block">{{ field.errors.0 }}</div>{% endif %}
+            </div>
+            {% endfor %}
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-success px-4">
+                <i class="bi bi-check-circle me-2"></i>{% if object %}Update{% else %}Add Income{% endif %}
+              </button>
+              <a href="{% url 'income_list' %}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

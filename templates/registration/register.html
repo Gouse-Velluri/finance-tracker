@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Register — FinanceTracker{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-card" style="max-width: 480px;">
+    <div class="auth-logo">
+      <i class="bi bi-person-plus"></i>
+    </div>
+    <h2 class="auth-title">Create account</h2>
+    <p class="auth-subtitle">Start tracking your finances for free</p>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="row g-2">
+        <div class="col-6">
+          <label class="form-label fw-medium small">First Name</label>
+          {{ form.first_name }}
+          {% if form.first_name.errors %}<div class="invalid-feedback d-block">{{ form.first_name.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="col-6">
+          <label class="form-label fw-medium small">Last Name</label>
+          {{ form.last_name }}
+          {% if form.last_name.errors %}<div class="invalid-feedback d-block">{{ form.last_name.errors.0 }}</div>{% endif %}
+        </div>
+      </div>
+      <div class="mb-2 mt-2">
+        <label class="form-label fw-medium small">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}<div class="invalid-feedback d-block">{{ form.username.errors.0 }}</div>{% endif %}
+      </div>
+      <div class="mb-2">
+        <label class="form-label fw-medium small">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}<div class="invalid-feedback d-block">{{ form.email.errors.0 }}</div>{% endif %}
+      </div>
+      <div class="mb-2">
+        <label class="form-label fw-medium small">Password</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}<div class="invalid-feedback d-block">{{ form.password1.errors.0 }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-medium small">Confirm Password</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}<div class="invalid-feedback d-block">{{ form.password2.errors.0 }}</div>{% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 btn-lg">
+        <i class="bi bi-rocket-takeoff me-2"></i>Create Account
+      </button>
+    </form>
+
+    <p class="text-center mt-3 mb-0 small">
+      Already have an account? <a href="{% url 'login' %}" class="text-primary fw-semibold">Sign in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
